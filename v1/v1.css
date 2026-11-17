@@ -8,6 +8,7 @@
   --hand:"Caveat", "Comic Sans MS", cursive;
 }
 *{box-sizing:border-box}
+html,body{overflow-x:clip}
 html{scroll-behavior:smooth;scroll-padding-top:90px}
 body{margin:0;font-family:var(--body);font-size:1.06rem;line-height:1.65;color:var(--ink);background:var(--cream);-webkit-font-smoothing:antialiased}
 img{max-width:100%;height:auto;display:block}
