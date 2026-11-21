@@ -829,12 +829,14 @@ var I18N = {"en": {"metaTitle": "Reservations calendar | Brasserie Da Vinci", "s
   $('#s-refresh').addEventListener('click', loadStaff);
   function loadStaff() {
     if (!staff.token) return;
-    var r = range(); staff.loading = true; renderStaff();
+    var r = range(); staff.loading = true; staff.data = []; renderStaff();
+    var seq = staff.seq = (staff.seq || 0) + 1;
     api('GET', '/staff/reservations?from=' + iso(r[0]) + '&to=' + iso(r[1]), null, staff.token).then(function (j) {
+      if (seq !== staff.seq) return;
       staff.loading = false;
       if (j._status === 401) { logout(L('sExpired')); return; }
       staff.data = j.reservations || []; renderStaff();
-    }, function () { staff.loading = false; $('#s-view').innerHTML = '<p class="k-msg err">' + esc(L('eError')) + '</p>'; });
+    }, function () { if (seq !== staff.seq) return; staff.loading = false; $('#s-view').innerHTML = '<p class="k-msg err">' + esc(L('eError')) + '</p>'; });
   }
   function entryHtml(r) {
     var extra = [];
